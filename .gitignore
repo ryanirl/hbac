@@ -1,3 +1,15 @@
+archive/
+
+# Output
+keep/
+
+# Data
+example_figures/ 
+test_eegs/ 
+train_eegs/ 
+test_spectrograms/ 
+train_spectrograms/ 
+
 *.pt
 *.pkl
 *.npy
