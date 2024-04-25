@@ -1,0 +1,44 @@
+optimizer:
+  _target_: Adam
+  lr: 0.0001
+  betas:
+  - 0.9
+  - 0.999
+  eps: 1.0e-08
+  weight_decay: 0
+  amsgrad: false
+  foreach: null
+  maximize: false
+  capturable: false
+  differentiable: false
+  fused: null
+scheduler:
+  _target_: null
+model:
+  _target_: multimodal_base
+  input_size: 256
+  embed_dim: 256
+  freeze_backbone: false
+trainer:
+  device: null
+  min_epochs: 0
+  max_epochs: 10
+  grad_accum_steps: 1
+  check_val_every_n_epochs: 1
+  log_every_n_steps: 1
+  resume_from_checkpoint: null
+  output_dir: output/multimodal_stage_2_fold_0
+data:
+  data_dir: ./data/
+  data_type: multimodal
+  fold: 0
+  n_folds: 10
+  count_type: upper
+  batch_size: 16
+  shuffle: true
+  num_workers: 4
+  pin_memory: false
+  drop_last: true
+config: configs/base_multimodal.yaml
+mode: multimodal
+from_pretrained: output/multimodal_stage_1_fold_0/model_final.pt

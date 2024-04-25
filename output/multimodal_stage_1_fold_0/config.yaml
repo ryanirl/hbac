@@ -1,0 +1,47 @@
+optimizer:
+  _target_: Adam
+  lr: 0.0003
+  betas:
+  - 0.9
+  - 0.999
+  eps: 1.0e-08
+  weight_decay: 0
+  amsgrad: false
+  foreach: null
+  maximize: false
+  capturable: false
+  differentiable: false
+  fused: null
+scheduler:
+  _target_: null
+model:
+  _target_: multimodal_base_pretrained_backbone_entrypoint
+  eeg_ckpt_path: output/eeg_cnn_rnn_att_stage_2_fold_0/model_best_val-loss_g10.pt
+  eeg_spec_ckpt_path: output/eeg_spc_cnn_att_stage_2_fold_0/model_best_val-loss_g10.pt
+  spec_ckpt_path: output/spc_cnn_att_stage_2_fold_0/model_best_val-loss_g10.pt
+  input_size: 256
+  embed_dim: 256
+  freeze_backbone: true
+trainer:
+  device: null
+  min_epochs: 0
+  max_epochs: 20
+  grad_accum_steps: 1
+  check_val_every_n_epochs: 1
+  log_every_n_steps: 1
+  resume_from_checkpoint: null
+  output_dir: output/multimodal_stage_1_fold_0
+data:
+  data_dir: ./data/
+  data_type: multimodal
+  fold: 0
+  n_folds: 10
+  count_type: all
+  batch_size: 32
+  shuffle: true
+  num_workers: 4
+  pin_memory: false
+  drop_last: true
+config: configs/base_multimodal.yaml
+mode: multimodal
+from_pretrained: null

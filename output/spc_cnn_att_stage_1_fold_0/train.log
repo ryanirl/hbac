@@ -1,0 +1,221 @@
+2024-04-21 00:50:09 [[38;5;39mINFO[0m]: Config: 
+optimizer:
+  _target_: Adam
+  lr: 0.0003
+  betas:
+  - 0.9
+  - 0.999
+  eps: 1.0e-08
+  weight_decay: 0
+  amsgrad: false
+  foreach: null
+  maximize: false
+  capturable: false
+  differentiable: false
+  fused: null
+scheduler:
+  _target_: null
+model:
+  _target_: spc_cnn_att_base
+  in_channels: 1
+trainer:
+  device: null
+  min_epochs: 0
+  max_epochs: 20
+  grad_accum_steps: 1
+  check_val_every_n_epochs: 1
+  log_every_n_steps: 1
+  resume_from_checkpoint: null
+  output_dir: output/spc_cnn_att_stage_1_fold_0
+data:
+  data_dir: ./data/
+  data_type: spectrogram
+  fold: 0
+  n_folds: 10
+  count_type: all
+  batch_size: 32
+  shuffle: true
+  num_workers: 4
+  pin_memory: false
+  drop_last: true
+config: configs/base_spectrogram.yaml
+mode: unimodal
+from_pretrained: null
+
+2024-04-21 00:50:09 [[38;5;39mINFO[0m]: Saving config to 'output/spc_cnn_att_stage_1_fold_0'
+2024-04-21 00:50:09 [[38;5;39mINFO[0m]: Instantiating TrainerArgs
+2024-04-21 00:50:09 [[38;5;39mINFO[0m]: Instantiating Model
+2024-04-21 00:50:09 [[38;5;39mINFO[0m]: SpectrogramCnnModel(
+  (projection): Sequential(
+    (0): Conv2d(1, 16, kernel_size=(3, 3), stride=(1, 1), padding=same, bias=False)
+    (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU(inplace=True)
+  )
+  (encoder): Sequential(
+    (0): ResidualBlock2d(
+      (relu): ReLU(inplace=True)
+      (maxpool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=True)
+      (downsample): Sequential(
+        (0): Conv2d(16, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (dropout): Dropout2d(p=0.4, inplace=False)
+      (conv1): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (1): ResidualBlock2d(
+      (relu): ReLU(inplace=True)
+      (maxpool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=True)
+      (downsample): Sequential(
+        (0): Conv2d(32, 48, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (dropout): Dropout2d(p=0.4, inplace=False)
+      (conv1): Conv2d(32, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (2): ResidualBlock2d(
+      (relu): ReLU(inplace=True)
+      (maxpool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=True)
+      (downsample): Sequential(
+        (0): Conv2d(48, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (dropout): Dropout2d(p=0.4, inplace=False)
+      (conv1): Conv2d(48, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (3): ResidualBlock2d(
+      (relu): ReLU(inplace=True)
+      (maxpool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=True)
+      (downsample): Sequential(
+        (0): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (dropout): Dropout2d(p=0.4, inplace=False)
+      (conv1): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (4): ResidualBlock2d(
+      (relu): ReLU(inplace=True)
+      (maxpool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=True)
+      (downsample): Sequential(
+        (0): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (dropout): Dropout2d(p=0.4, inplace=False)
+      (conv1): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (pool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (node_attention): NodeAttention(
+    (attention_layers): ModuleList(
+      (0-1): 2 x AttentionBlock(
+        (projection): Linear(in_features=256, out_features=256, bias=True)
+        (pos_embeddings): LearnablePosEmbeddings(
+          (embedding): Embedding(4, 256)
+        )
+        (attention): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=256, out_features=256, bias=True)
+        )
+        (fc): Sequential(
+          (0): Linear(in_features=256, out_features=1024, bias=True)
+          (1): GELU(approximate='none')
+          (2): Linear(in_features=1024, out_features=256, bias=True)
+        )
+        (ln_0): LayerNorm()
+        (ln_1): LayerNorm()
+      )
+    )
+  )
+  (pool_factor): Linear(in_features=256, out_features=1, bias=True)
+  (decoder): Linear(in_features=256, out_features=6, bias=True)
+  (temperature): Sequential(
+    (0): Linear(in_features=256, out_features=6, bias=True)
+    (1): Softplus(beta=1, threshold=20)
+  )
+)
+2024-04-21 00:50:09 [[38;5;39mINFO[0m]: Parameter count: 2984741
+2024-04-21 00:50:09 [[38;5;39mINFO[0m]: Instantiating Optimizer
+2024-04-21 00:50:10 [[38;5;39mINFO[0m]: Instantiating Dataloaders
+2024-04-21 00:50:14 [[38;5;39mINFO[0m]: Training with the unimodal task
+2024-04-21 00:50:14 [[38;5;39mINFO[0m]: Starting training!
+2024-04-21 00:50:20 [[38;5;39mINFO[0m]: validation summary - Epoch: [ 0/20] | Total Time:   5.7680 | Epoch Time:   5.7672 | Mean val/loss_all: 1.6338505771 | Mean val/loss_g10: 1.3107517986 | Mean val/loss_l10: 1.8019281324
+2024-04-21 00:50:20 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_g10*)
+2024-04-21 00:50:20 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_l10*)
+2024-04-21 00:50:20 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_all*)
+2024-04-21 00:53:10 [[38;5;39mINFO[0m]: training summary - Epoch: [ 1/20] | Total Time: 175.5576 | Epoch Time: 169.7068 | Mean train/loss: 1.0949606946
+2024-04-21 00:53:15 [[38;5;39mINFO[0m]: validation summary - Epoch: [ 1/20] | Total Time: 180.8473 | Epoch Time:   5.2879 | Mean val/loss_all: 1.0285810235 | Mean val/loss_g10: 0.8223882797 | Mean val/loss_l10: 1.1301020421
+2024-04-21 00:53:15 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_g10*)
+2024-04-21 00:53:16 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_l10*)
+2024-04-21 00:53:16 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_all*)
+2024-04-21 00:56:06 [[38;5;39mINFO[0m]: training summary - Epoch: [ 2/20] | Total Time: 351.1449 | Epoch Time: 169.5388 | Mean train/loss: 0.9184462829
+2024-04-21 00:56:11 [[38;5;39mINFO[0m]: validation summary - Epoch: [ 2/20] | Total Time: 356.4584 | Epoch Time:   5.3117 | Mean val/loss_all: 0.9910080978 | Mean val/loss_g10: 0.6318642215 | Mean val/loss_l10: 1.1753071087
+2024-04-21 00:56:11 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_g10*)
+2024-04-21 00:56:11 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_all*)
+2024-04-21 00:59:01 [[38;5;39mINFO[0m]: training summary - Epoch: [ 3/20] | Total Time: 526.7341 | Epoch Time: 169.7300 | Mean train/loss: 0.8358034565
+2024-04-21 00:59:07 [[38;5;39mINFO[0m]: validation summary - Epoch: [ 3/20] | Total Time: 532.0379 | Epoch Time:   5.3018 | Mean val/loss_all: 0.8416525727 | Mean val/loss_g10: 0.6153349790 | Mean val/loss_l10: 0.9525755092
+2024-04-21 00:59:07 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_g10*)
+2024-04-21 00:59:07 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_l10*)
+2024-04-21 00:59:07 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_all*)
+2024-04-21 01:01:57 [[38;5;39mINFO[0m]: training summary - Epoch: [ 4/20] | Total Time: 702.6657 | Epoch Time: 169.8572 | Mean train/loss: 0.7948027990
+2024-04-21 01:02:02 [[38;5;39mINFO[0m]: validation summary - Epoch: [ 4/20] | Total Time: 707.9451 | Epoch Time:   5.2775 | Mean val/loss_all: 0.8235705875 | Mean val/loss_g10: 0.5686185262 | Mean val/loss_l10: 0.9558912604
+2024-04-21 01:02:02 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_g10*)
+2024-04-21 01:02:03 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_all*)
+2024-04-21 01:04:53 [[38;5;39mINFO[0m]: training summary - Epoch: [ 5/20] | Total Time: 878.2094 | Epoch Time: 169.7750 | Mean train/loss: 0.7588527274
+2024-04-21 01:04:58 [[38;5;39mINFO[0m]: validation summary - Epoch: [ 5/20] | Total Time: 883.5189 | Epoch Time:   5.3086 | Mean val/loss_all: 0.8236958136 | Mean val/loss_g10: 0.5884536187 | Mean val/loss_l10: 0.9406276762
+2024-04-21 01:04:58 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_l10*)
+2024-04-21 01:07:48 [[38;5;39mINFO[0m]: training summary - Epoch: [ 6/20] | Total Time: 1053.9054 | Epoch Time: 170.1386 | Mean train/loss: 0.7328865903
+2024-04-21 01:07:54 [[38;5;39mINFO[0m]: validation summary - Epoch: [ 6/20] | Total Time: 1059.1957 | Epoch Time:   5.2886 | Mean val/loss_all: 0.8016735581 | Mean val/loss_g10: 0.5921968628 | Mean val/loss_l10: 0.9097275879
+2024-04-21 01:07:54 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_l10*)
+2024-04-21 01:07:54 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_all*)
+2024-04-21 01:10:51 [[38;5;39mINFO[0m]: training summary - Epoch: [ 7/20] | Total Time: 1236.9738 | Epoch Time: 177.2808 | Mean train/loss: 0.7133714023
+2024-04-21 01:10:57 [[38;5;39mINFO[0m]: validation summary - Epoch: [ 7/20] | Total Time: 1242.4161 | Epoch Time:   5.4407 | Mean val/loss_all: 0.8076181692 | Mean val/loss_g10: 0.5507788713 | Mean val/loss_l10: 0.9343777337
+2024-04-21 01:10:57 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_g10*)
+2024-04-21 01:13:52 [[38;5;39mINFO[0m]: training summary - Epoch: [ 8/20] | Total Time: 1417.6349 | Epoch Time: 174.9660 | Mean train/loss: 0.6958177815
+2024-04-21 01:13:58 [[38;5;39mINFO[0m]: validation summary - Epoch: [ 8/20] | Total Time: 1423.2042 | Epoch Time:   5.5685 | Mean val/loss_all: 0.7967629444 | Mean val/loss_g10: 0.5661725491 | Mean val/loss_l10: 0.9121181719
+2024-04-21 01:13:58 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_all*)
+2024-04-21 01:16:55 [[38;5;39mINFO[0m]: training summary - Epoch: [ 9/20] | Total Time: 1600.4953 | Epoch Time: 177.0268 | Mean train/loss: 0.6759537193
+2024-04-21 01:17:00 [[38;5;39mINFO[0m]: validation summary - Epoch: [ 9/20] | Total Time: 1605.7498 | Epoch Time:   5.2526 | Mean val/loss_all: 0.7838378384 | Mean val/loss_g10: 0.5829929275 | Mean val/loss_l10: 0.8872657782
+2024-04-21 01:17:00 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_l10*)
+2024-04-21 01:17:00 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_all*)
+2024-04-21 01:19:50 [[38;5;39mINFO[0m]: training summary - Epoch: [10/20] | Total Time: 1775.9014 | Epoch Time: 169.6601 | Mean train/loss: 0.6602234703
+2024-04-21 01:19:56 [[38;5;39mINFO[0m]: validation summary - Epoch: [10/20] | Total Time: 1781.1379 | Epoch Time:   5.2347 | Mean val/loss_all: 0.8036176721 | Mean val/loss_g10: 0.5210439505 | Mean val/loss_l10: 0.9517739652
+2024-04-21 01:19:56 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_g10*)
+2024-04-21 01:22:45 [[38;5;39mINFO[0m]: training summary - Epoch: [11/20] | Total Time: 1950.9816 | Epoch Time: 169.5336 | Mean train/loss: 0.6555766215
+2024-04-21 01:22:51 [[38;5;39mINFO[0m]: validation summary - Epoch: [11/20] | Total Time: 1956.3943 | Epoch Time:   5.4116 | Mean val/loss_all: 0.7732258278 | Mean val/loss_g10: 0.5499268699 | Mean val/loss_l10: 0.8929801015
+2024-04-21 01:22:51 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_all*)
+2024-04-21 01:25:43 [[38;5;39mINFO[0m]: training summary - Epoch: [12/20] | Total Time: 2128.5485 | Epoch Time: 171.8813 | Mean train/loss: 0.6361845138
+2024-04-21 01:25:49 [[38;5;39mINFO[0m]: validation summary - Epoch: [12/20] | Total Time: 2134.1216 | Epoch Time:   5.5710 | Mean val/loss_all: 0.8529457794 | Mean val/loss_g10: 0.5326356474 | Mean val/loss_l10: 1.0185121070
+2024-04-21 01:28:43 [[38;5;39mINFO[0m]: training summary - Epoch: [13/20] | Total Time: 2308.1988 | Epoch Time: 174.0746 | Mean train/loss: 0.6246101677
+2024-04-21 01:28:48 [[38;5;39mINFO[0m]: validation summary - Epoch: [13/20] | Total Time: 2313.7141 | Epoch Time:   5.5137 | Mean val/loss_all: 0.7443431802 | Mean val/loss_g10: 0.4774852670 | Mean val/loss_l10: 0.8784544823
+2024-04-21 01:28:48 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_g10*)
+2024-04-21 01:28:48 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_l10*)
+2024-04-21 01:28:49 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_all*)
+2024-04-21 01:31:38 [[38;5;39mINFO[0m]: training summary - Epoch: [14/20] | Total Time: 2483.9250 | Epoch Time: 169.4212 | Mean train/loss: 0.6155677186
+2024-04-21 01:31:44 [[38;5;39mINFO[0m]: validation summary - Epoch: [14/20] | Total Time: 2489.1458 | Epoch Time:   5.2189 | Mean val/loss_all: 0.7528404567 | Mean val/loss_g10: 0.5110923412 | Mean val/loss_l10: 0.8832167373
+2024-04-21 01:34:32 [[38;5;39mINFO[0m]: training summary - Epoch: [15/20] | Total Time: 2657.5547 | Epoch Time: 168.4065 | Mean train/loss: 0.6026189346
+2024-04-21 01:34:37 [[38;5;39mINFO[0m]: validation summary - Epoch: [15/20] | Total Time: 2662.7823 | Epoch Time:   5.2260 | Mean val/loss_all: 0.7715358685 | Mean val/loss_g10: 0.4849861132 | Mean val/loss_l10: 0.9196967734
+2024-04-21 01:37:26 [[38;5;39mINFO[0m]: training summary - Epoch: [16/20] | Total Time: 2831.4801 | Epoch Time: 168.6954 | Mean train/loss: 0.5948628034
+2024-04-21 01:37:31 [[38;5;39mINFO[0m]: validation summary - Epoch: [16/20] | Total Time: 2836.6462 | Epoch Time:   5.1653 | Mean val/loss_all: 0.7614471300 | Mean val/loss_g10: 0.5035594279 | Mean val/loss_l10: 0.8849497716
+2024-04-21 01:40:20 [[38;5;39mINFO[0m]: training summary - Epoch: [17/20] | Total Time: 3005.1290 | Epoch Time: 168.4772 | Mean train/loss: 0.5749273571
+2024-04-21 01:40:25 [[38;5;39mINFO[0m]: validation summary - Epoch: [17/20] | Total Time: 3010.3134 | Epoch Time:   5.1824 | Mean val/loss_all: 0.7948706398 | Mean val/loss_g10: 0.5729295799 | Mean val/loss_l10: 0.9044754948
+2024-04-21 01:43:13 [[38;5;39mINFO[0m]: training summary - Epoch: [18/20] | Total Time: 3178.9555 | Epoch Time: 168.6366 | Mean train/loss: 0.5686381608
+2024-04-21 01:43:19 [[38;5;39mINFO[0m]: validation summary - Epoch: [18/20] | Total Time: 3184.1445 | Epoch Time:   5.1872 | Mean val/loss_all: 0.8323579238 | Mean val/loss_g10: 0.5310236710 | Mean val/loss_l10: 0.9834260338
+2024-04-21 01:46:07 [[38;5;39mINFO[0m]: training summary - Epoch: [19/20] | Total Time: 3352.8140 | Epoch Time: 168.6666 | Mean train/loss: 0.5665441967
+2024-04-21 01:46:12 [[38;5;39mINFO[0m]: validation summary - Epoch: [19/20] | Total Time: 3357.9799 | Epoch Time:   5.1640 | Mean val/loss_all: 0.7839568446 | Mean val/loss_g10: 0.6210184202 | Mean val/loss_l10: 0.8636662198
+2024-04-21 01:46:12 [[38;5;39mINFO[0m]: Saving model checkpoint (based on *val/loss_l10*)
+2024-04-21 01:49:01 [[38;5;39mINFO[0m]: training summary - Epoch: [20/20] | Total Time: 3526.7722 | Epoch Time: 168.5275 | Mean train/loss: 0.5592027400
+2024-04-21 01:49:06 [[38;5;39mINFO[0m]: validation summary - Epoch: [20/20] | Total Time: 3531.9605 | Epoch Time:   5.1874 | Mean val/loss_all: 0.8137043605 | Mean val/loss_g10: 0.5107222189 | Mean val/loss_l10: 0.9639536905
+2024-04-21 01:49:06 [[38;5;39mINFO[0m]: Saving final model checkpoint
